@@ -129,6 +129,19 @@
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+/* ▼▼▼ 이미지 반응형 강제 고정 코드 (여기 붙여넣으세요) ▼▼▼ */
+        img {
+            max-width: 100%;   /* 너비는 부모(화면)를 넘지 마라 */
+            height: auto;      /* 높이는 비율에 맞춰서 알아서 줄어라 */
+            display: block;    /* 이상한 여백 생김 방지 */
+            margin: 0 auto;    /* 가운데 정렬 */
+        }
+        
+        /* 혹시 비디오나 지도(iframe)도 넣었다면 이것도 추가 */
+        iframe, video {
+            max-width: 100%;
+        }
+
     </style>
 </head>
 <body>
@@ -252,6 +265,11 @@
         </div>
 <div class="timeline-item">
             <div class="card">
+<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <img src="https://private-user-images.githubusercontent.com/263544605/553951151-1d3d09bf-d31c-462c-9646-e495b521815b.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzE5MTcwNzIsIm5iZiI6MTc3MTkxNjc3MiwicGF0aCI6Ii8yNjM1NDQ2MDUvNTUzOTUxMTUxLTFkM2QwOWJmLWQzMWMtNDYyYy05NjQ2LWU0OTViNTIxODE1Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDIyNFQwNzA2MTJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iMzdiOTNkN2JjYThiNDkzNTc0NjIxNWRhZGQ5ZGE5MWE2OGUyYmIyMzVkNjZjNTk3ZGM4MDExYTIxN2EyMDA2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.okc6ovgcjVN3jxrA3yqJZGvM5nq-yqjuXOiNp4mBBZc"> <img src="https://private-user-images.githubusercontent.com/263544605/553952100-3aa08245-9bad-459e-81ef-e18a6a72cf8b.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzE5MTcwNzIsIm5iZiI6MTc3MTkxNjc3MiwicGF0aCI6Ii8yNjM1NDQ2MDUvNTUzOTUyMTAwLTNhYTA4MjQ1LTliYWQtNDU5ZS04MWVmLWUxOGE2YTcyY2Y4Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDIyNFQwNzA2MTJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zZTgwZjU1MzY0YjZjYTJiZTE0MWRkY2RhN2VlMmY1NWQ4OTZmZGNhNDMzMmM0NzE4YmE2ZTA2NDJiYmNiOGIyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.5zZ4Jy9qThe8XPKj9RWaaw9cEbBOWzXIV7NyWgkSt04">
+
+  </div>
+
   <div class="card-body">
                     <span class="time-badge">12:30 ~ 14:30 PM</span>
                     <div class="place-name">🥩 이른 야키니쿠 부수기</div>
@@ -259,7 +277,7 @@
                         야키니쿠하나비2호점 또는 로쿠쇼<br>
                         비슷한 야키니쿠 중 평좋은 곳                    </div>
                     <div class="btn-group">
-                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(KaN)</a><br><a href="https://maps.app.goo.gl/3gosKhRsDggxEec1A" target="_blank" class="action-btn map">📍 구글맵(로쿠쇼)</a>
+                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(하나비2)</a><br><a href="https://maps.app.goo.gl/3gosKhRsDggxEec1A" target="_blank" class="action-btn map">📍 구글맵(로쿠쇼)</a>
                     </div>
                 </div>
             </div>
