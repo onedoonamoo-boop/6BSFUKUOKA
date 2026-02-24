@@ -4,195 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>FUKUOKA VIP : JUNHO TOUR</title>
+    <title>멍청6인 후쿠오카 료코</title>
     <style>
-        /* 1. 기본 세팅 (다크모드 & 폰트) */
-        :root {
-            --bg-color: #000000;
-            --card-bg: #1c1c1e;
-            --primary: #0A84FF; /* iOS 블루 */
-            --text-main: #ffffff;
-            --text-sub: #8e8e93;
-            --danger: #FF453A;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            padding-bottom: 80px; /* 하단 여백 */
-        }
+        /* 1. 기본 스타일 */
+        :root { --bg-color: #000000; --card-bg: #1c1c1e; --primary: #0A84FF; --text-main: #ffffff; --text-sub: #8e8e93; }
+        body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; padding-bottom: 80px; }
 
-        /* 2. 헤더 (블러 효과 적용) */
-        header {
+        /* 2. 상단 고정 (헤더 + 탭을 하나로 묶어서 고정시킴) */
+        .sticky-header-container {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(28, 28, 30, 0.85); /* 반투명 배경 */
-            backdrop-filter: blur(20px); /* 아이폰 블러 효과 */
+            background: rgba(28, 28, 30, 0.95); /* 배경이 비치지 않게 조금 더 진하게 */
+            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 15px 20px;
             border-bottom: 0.5px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        .title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+
+        /* 헤더 스타일 */
+        header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .title { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
         .d-day { font-size: 14px; color: var(--primary); font-weight: 600; background: rgba(10, 132, 255, 0.15); padding: 5px 12px; border-radius: 12px; }
 
-        /* 3. 탭 메뉴 (가로 스크롤 가능) */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            padding: 15px 20px;
-            overflow-x: auto; /* 탭 많아지면 스크롤 */
-            scrollbar-width: none; /* 스크롤바 숨김 */
-        }
+        /* 3. 탭 메뉴 (이제 헤더 바로 아래에 붙어있음) */
+        .tabs { display: flex; gap: 10px; padding: 0 20px 15px 20px; overflow-x: auto; scrollbar-width: none; }
         .tabs::-webkit-scrollbar { display: none; }
-        
-        .tab-btn {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-sub);
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.4);
-        }
+        .tab-btn { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); color: var(--text-sub); padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; transition: all 0.2s ease; cursor: pointer; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(10, 132, 255, 0.4); }
 
-        /* 4. 컨텐츠 카드 (카드 뉴스 스타일) */
-        .content-area { display: none; padding: 0 20px; animation: slideUp 0.4s ease-out; }
+        /* 4. 컨텐츠 영역 */
+        .content-area { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
         .content-area.active { display: block; }
 
-        .timeline-item {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 25px;
-            border-left: 2px solid #333;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .card-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            display: block;
-        }
+        /* 5. 카드 디자인 */
+        .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 2px solid #333; }
+        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+        
+        .card { background: var(--card-bg); border-radius: 16px; overflow: hidden; margin-top: 10px; }
         .card-body { padding: 15px; }
         .time-badge { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 5px; display: block; }
         .place-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; color: white; }
-        .place-desc { font-size: 14px; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; }
+        .place-desc { font-size: 14px; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; word-break: keep-all; }
 
-        /* 5. 버튼 스타일 */
-        .btn-group { display: flex; gap: 8px; }
-        .action-btn {
-            flex: 1;
-            padding: 12px 0;
-            text-align: center;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-        .action-btn.map { background: #2c2c2e; color: #4facfe; } /* 지도 색상 */
-
-        /* 애니메이션 */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-/* ▼▼▼ 이미지 반응형 강제 고정 코드 (여기 붙여넣으세요) ▼▼▼ */
-        img {
-            max-width: 100%;   /* 너비는 부모(화면)를 넘지 마라 */
-            height: auto;      /* 높이는 비율에 맞춰서 알아서 줄어라 */
-            display: block;    /* 이상한 여백 생김 방지 */
-            margin: 0 auto;    /* 가운데 정렬 */
-        }
+        /* 6. 버튼 & 이미지 */
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .action-btn { flex: 1; min-width: 100px; padding: 12px 0; text-align: center; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; background: #2c2c2e; color: #4facfe; display: inline-block; }
         
-        /* 혹시 비디오나 지도(iframe)도 넣었다면 이것도 추가 */
-        iframe, video {
-            max-width: 100%;
-        }
+        /* 이미지 스타일 (준호님 요청: 가운데 정렬 + 반응형) */
+        .img-container { display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #000; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        img { max-width: 100%; height: auto; display: block; object-fit: contain; max-height: 300px; }
 
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="title">6인의 머저리 in FUKUOKA ✈️</div>
-        <div class="d-day" id="d-day-display">D-Day</div>
-    </header>
+    <div class="sticky-header-container">
+        <header>
+            <div class="title">6인의 머저리 in FUKUOKA ✈️</div>
+            <div class="d-day" id="d-day-display">D-Day</div>
+        </header>
 
-    <div class="tabs">
-        <div class="tab-btn active" onclick="openTab('day1', this)">1일차</div>
-        <div class="tab-btn" onclick="openTab('day2', this)">2일차</div>
-        <div class="tab-btn" onclick="openTab('day3', this)">3일차</div>
-        <div class="tab-btn" onclick="openTab('info', this)">준비물</div>
+        <div class="tabs">
+            <div class="tab-btn active" onclick="openTab('day1', this)">1일차</div>
+            <div class="tab-btn" onclick="openTab('day2', this)">2일차</div>
+            <div class="tab-btn" onclick="openTab('day3', this)">3일차</div>
+            <div class="tab-btn" onclick="openTab('info', this)">준비물</div>
+        </div>
     </div>
-
     <div id="day1" class="content-area active">
+        
         <div class="timeline-item">
             <div class="card">
-              
                 <div class="card-body">
                     <span class="time-badge">적어도 04:30까지</span>
                     <div class="place-name">[인천공항 1터미널 도착]</div>
                     <div class="place-desc">
                         *준호승표동현<br>
-                        *심야영화 없을 것으로 추정되어 노숙 예정      <br> *떨거지들은 적당히 2시간 전에 올 것,승민알아서 잘가셈 <br>*위탁 15kg/편명 : 7C1401(06:30)          </div>
-                
-                
+                        *심야영화 없을 것으로 추정되어 노숙 예정<br> 
+                        *떨거지들은 적당히 2시간 전에 올 것, 승민 알아서 잘가셈 <br>
+                        *위탁 15kg / 편명 : 7C1401(06:30)<br>
+*면세점 수령 생각할 것
                     </div>
                 </div>
             </div>
         </div>
 
- <div class="timeline-item">
+        <div class="timeline-item">
             <div class="card">
-     
                 <div class="card-body">
                     <span class="time-badge">08:30~10:00 AM</span>
                     <div class="place-name">[후쿠오카 공항 도착 및 하카타역 도착]</div>
                     <div class="place-desc">
-                       *입국수속 30분~1시간 예정<br>
-                      *시내까지 20분정도 예정 <br>  
-		       *국제선 TO 하카타역 버스 6,7번 승강장에서 탑승 (310엔)/니시테츠 버스 무인발권기 티켓발권 또는 후쿠오카 그린패스
-                       <br>*애매하면 3/3 갈라서 택시 (인당 5천원정도 듦)      </div>
-                    <div class="btn-group">
-                      
+                        *입국수속 30분~1시간 예정<br>
+                        *시내까지 20분정도 예정 <br>  
+                        *국제선 TO 하카타역 버스 6,7번 승강장에서 탑승 (310엔)<br>
+                        *니시테츠 버스 무인발권기 티켓발권 또는 후쿠오카 그린패스<br>
+                        *애매하면 3/3 갈라서 택시 (인당 5천원정도 듦)
                     </div>
                 </div>
             </div>
         </div>
-
 
         <div class="timeline-item">
             <div class="card">
@@ -206,107 +118,359 @@
                 </div>
             </div>
         </div>
-    </div>
 
-<div class="timeline-item">
+        <div class="timeline-item">
             <div class="card">
-<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <img src="https://lh3.googleusercontent.com/p/AF1QipPBX56rvTaMXR3RBMX_nRjqHP1LSwvz7PZKs3z4=w426-h240-k-no">
-  </div>
+                <div class="img-container">
+                    <img src="https://tblg.k-img.com/restaurant/images/Rvw/298434/640x640_rect_3d078606f4ecf766a03f94199700aa61.jpg">
+<img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20214834.png">
+                </div>
                 <div class="card-body">
                     <span class="time-badge">11:00 ~ 12:30 PM</span>
-                    <div class="place-name">🍜 긴무기 세이맨</div>
+                    <div class="place-name">🍜 긴무기 세이맨/츠쿠리타케라멘</div>
                     <div class="place-desc">
-                        메밀소바, 소유라멘,츠케맨 등 11시 오픈<br>
-                        자루소바나 라멘 맛있다함. 너무 짜지 않은st 돈코츠라멘과는 결이 좀 다름
+                       긴무기 : 메밀소바, 소유라멘,츠케맨 등 11시 오픈<br>
+                        자루소바나 라멘 맛있다함. 너무 짜지 않은st 돈코츠라멘과는 결이 좀 다름<br>
+츠쿠리 : 버섯베이스 소유/시오라멘 
                     </div>
                     <div class="btn-group">
-                        <a href="https://maps.app.goo.gl/Mvrs92SDQjvJ29hC8" target="_blank" class="action-btn map">📍 구글맵</a>
+                        <a href="https://maps.app.goo.gl/Mvrs92SDQjvJ29hC8" target="_blank" class="action-btn map">📍 세이맨</a>
+<a href="https://maps.app.goo.gl/Mvrs92SDQjvJ29hC8" target="_blank" class="action-btn map">📍 츠쿠리타케</a>
                     </div>
                 </div>
             </div>
         </div>
 
-<div class="timeline-item">
+        <div class="timeline-item">
             <div class="card">
-<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwepmiQfIUsM0C-1MEs-HHrv73qeb0w2vY7_wiK0EChjJBmuJvOiibmRSfYR0EvZ_YutbX6ekpLkeo_JpM6mcaWYsd6HEBFdiWpzcQqT3IqIpr_MQLE6WPk-72eNNdv2CuubLG-6veg=w408-h544-k-no"> <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqV48k7GhFAdS3OHYvSWxkHKHZf2codBCuQ25nik4xrNqvgzC1SBILZaMzcAsPFw4KRQQbAZt3zzxRKftrB26zyd9WbJ4dW68dMJfo87YQPvqevUL5etSBlY3ddAwgApRKlYv_C=w408-h306-k-no">
-
-  </div>
+                <div class="img-container">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwepmiQfIUsM0C-1MEs-HHrv73qeb0w2vY7_wiK0EChjJBmuJvOiibmRSfYR0EvZ_YutbX6ekpLkeo_JpM6mcaWYsd6HEBFdiWpzcQqT3IqIpr_MQLE6WPk-72eNNdv2CuubLG-6veg=w408-h544-k-no"> <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqV48k7GhFAdS3OHYvSWxkHKHZf2codBCuQ25nik4xrNqvgzC1SBILZaMzcAsPFw4KRQQbAZt3zzxRKftrB26zyd9WbJ4dW68dMJfo87YQPvqevUL5etSBlY3ddAwgApRKlYv_C=w408-h306-k-no">
+                </div>
                 <div class="card-body">
                     <span class="time-badge">12:30 ~ 14:30 PM</span>
                     <div class="place-name">☕ 걷기 및 커피타임</div>
                     <div class="place-desc">
                         coffee環-kaN- 또는 ハルコーヒー<br>
-                        둘다 분위기 나쁘지 않은 곳. 텐진쪽 가기 전에 있음.                    </div>
+                        둘다 분위기 나쁘지 않은 곳. 텐진쪽 가기 전에 있음.
+                    </div>
                     <div class="btn-group">
-                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(KaN)</a><br><a href="https://maps.app.goo.gl/tE3gmEH5ytYfkEU19" target="_blank" class="action-btn map">📍 구글맵(하루코히)</a>
+                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(KaN)</a>
+                        <a href="https://maps.app.goo.gl/tE3gmEH5ytYfkEU19" target="_blank" class="action-btn map">📍 구글맵(하루코히)</a>
                     </div>
                 </div>
             </div>
         </div>
 
-<div class="timeline-item">
+        <div class="timeline-item">
             <div class="card">
-
                 <div class="card-body">
                     <span class="time-badge">14:30 ~ 17:00 PM</span>
                     <div class="place-name">🛍️쇼핑 및 구경</div>
                     <div class="place-desc">
                         파르코백화점 빔즈 신관(단톤) <br> 텐진지하상가 KURACHIKA(포터 등)
-                        
                     </div>
-            <div class="btn-group">
-                        <a href="https://maps.app.goo.gl/1pDkDiYCQrCDRuuRA" target="_blank" class="action-btn map">📍 구글맵(파르코)</a><br><a href="https://maps.app.goo.gl/hy6LpnJatmwGPu786" target="_blank" class="action-btn map">📍 구글맵(KURA)</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-<div class="timeline-item">
-            <div class="card">
-<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <img src="https://private-user-images.githubusercontent.com/263544605/553951151-1d3d09bf-d31c-462c-9646-e495b521815b.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzE5MTcwNzIsIm5iZiI6MTc3MTkxNjc3MiwicGF0aCI6Ii8yNjM1NDQ2MDUvNTUzOTUxMTUxLTFkM2QwOWJmLWQzMWMtNDYyYy05NjQ2LWU0OTViNTIxODE1Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDIyNFQwNzA2MTJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iMzdiOTNkN2JjYThiNDkzNTc0NjIxNWRhZGQ5ZGE5MWE2OGUyYmIyMzVkNjZjNTk3ZGM4MDExYTIxN2EyMDA2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.okc6ovgcjVN3jxrA3yqJZGvM5nq-yqjuXOiNp4mBBZc"> <img src="https://private-user-images.githubusercontent.com/263544605/553952100-3aa08245-9bad-459e-81ef-e18a6a72cf8b.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzE5MTcwNzIsIm5iZiI6MTc3MTkxNjc3MiwicGF0aCI6Ii8yNjM1NDQ2MDUvNTUzOTUyMTAwLTNhYTA4MjQ1LTliYWQtNDU5ZS04MWVmLWUxOGE2YTcyY2Y4Yi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDIyNFQwNzA2MTJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zZTgwZjU1MzY0YjZjYTJiZTE0MWRkY2RhN2VlMmY1NWQ4OTZmZGNhNDMzMmM0NzE4YmE2ZTA2NDJiYmNiOGIyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.5zZ4Jy9qThe8XPKj9RWaaw9cEbBOWzXIV7NyWgkSt04">
-
-  </div>
-
-  <div class="card-body">
-                    <span class="time-badge">12:30 ~ 14:30 PM</span>
-                    <div class="place-name">🥩 이른 야키니쿠 부수기</div>
-                    <div class="place-desc">
-                        야키니쿠하나비2호점 또는 로쿠쇼<br>
-                        비슷한 야키니쿠 중 평좋은 곳                    </div>
                     <div class="btn-group">
-                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(하나비2)</a><br><a href="https://maps.app.goo.gl/3gosKhRsDggxEec1A" target="_blank" class="action-btn map">📍 구글맵(로쿠쇼)</a>
+                        <a href="https://maps.app.goo.gl/1pDkDiYCQrCDRuuRA" target="_blank" class="action-btn map">📍 구글맵(파르코)</a>
+                        <a href="https://maps.app.goo.gl/hy6LpnJatmwGPu786" target="_blank" class="action-btn map">📍 구글맵(KURA)</a>
                     </div>
                 </div>
             </div>
         </div>
 
-
-    <div id="day2" class="content-area">
         <div class="timeline-item">
             <div class="card">
+                <div class="img-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAquOpzROHiU1POqCptC2eLMItVCTMZH-zsA&s"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAc1StUYU7iQ8M7tKVwDNOnVU9boHwx-HBFA&s">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">17:00 ~ 19:00 PM</span>
+                    <div class="place-name">🥩 야키니쿠하나비2호점/로쿠쇼</div>
+                    <div class="place-desc">
+                        이른 야키니쿠 부수기<br>
+                        비슷한 야키니쿠 중 평좋은 곳. 너무마니 먹으면 다음이 힘듦
+               
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/e3MfcxX7xZ49RvAw7" target="_blank" class="action-btn map">📍 구글맵(하나비2)</a>
+                        <a href="https://maps.app.goo.gl/3gosKhRsDggxEec1A" target="_blank" class="action-btn map">📍 구글맵(로쿠쇼)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      <div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20204722.png">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">19:00 ~ 20:30 PM</span>
+                    <div class="place-name">🐔 히토구치 교자 타케토라</div>
+                    <div class="place-desc">
+                        가까운 로컬분위기 이자카야<br>
+                        교자,호르몬 등 다양한 음식
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/d4XRAeGgAAkDK71UA" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://tblg.k-img.com/restaurant/images/Rvw/341788/640x640_rect_3a6ab334a03b10813791126f7c8dd519.jpg">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">20:30 ~ ??</span>
+                    <div class="place-name">🐔 토리카와 스이쿄우</div>
+                    <div class="place-desc">
+                        소화시킬겸 걸어서 가기<br>
+                        닭껍질튀김/야키토리/맥주집
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/Cw4rkZ3APd7uUeRu7" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="card">
+                <div class="card-body">
+                    <span class="time-badge">???</span>
+                    <div class="place-name"> 🤷‍♂️ 멋대로 4차 또는 귀가후 편털</div>
+                    <div class="place-desc">
+                        맘에드는 곳 있으면 맘대로 3차 <br> 편털후 게하파티가능
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+    <div id="day2" class="content-area">
+           <div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20200934.png">
+                </div>
                 <div class="card-body">
                     <span class="time-badge">10:00 AM</span>
-                    <div class="place-name">🚌 유후인 버스 투어</div>
-                    <div class="place-desc">하카타역 로손 편의점 앞 집결.</div>
+                    <div class="place-name">♓토미이치</div>
+                    <div class="place-desc">
+                        평점5점 숙소앞 장어덮밥<br>
+                        필수코스인듯. 10시오픈런                   </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/Rqo8GLCap4LG4CQF7" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20202515.png">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">11:30 AM</span>
+                    <div class="place-name">☕GOLDFLOG COFFEE</div>
+                    <div class="place-desc">
+                        푸딩,케이크&커피<br>
+                        갤러리형 카페                   </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/JRfrJRLcPBFvFtRf9" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://t1.daumcdn.net/brunch/service/user/gU42/image/T0_nKV5YweD-FkuxrJ6nSZjinLU.jpg">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">12:30  ~ 14:00 PM</span>
+                    <div class="place-name">👜캐널시티 구경</div>
+                    <div class="place-desc">
+                        캐널시티 크니까 한번 둘러보는거 좋음 소화시킬겸<br>
+                        4층 TAITO 스테이션에서 3:3 게임 and 스티커사진<br> 사우스빌딩1층 존나큰건담                  </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/5AMMRBp2BSBQzc6t8" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+              
+                
+                <div class="card-body">
+                    <span class="time-badge"> ~16:30 PM 까지</span>
+                    <div class="place-name">[자유시간]</div>
+                    <div class="place-desc">
+                        해야 할 것, 사야 할 것, 봐야 할 것 보기<br>
+                        4시반~5시까지 할 것 알아서 정해서오기                 </div>
+                                    </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://mblogthumb-phinf.pstatic.net/MjAyNDAyMTNfMTcx/MDAxNzA3ODAxNTUzNjU3.0qz8s5ARxu2f8ifh-jI0U0svWRY7hPDM42Oc3Cc2szsg.f7j_BGy_c8RzI6kH9mCQe1pj1Df0Ja-r-Rzsfdcc2rMg.JPEG.ultrabat/20240131_205947.jpg?type=w800">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">17:00 ~ 17:30 PM</span>
+                    <div class="place-name"> 나카스강변 집합해서 잠깐 걷기</div>
+                    <div class="place-desc">
+                        야타이 창렬이므로 구경만 조금 하고 저녁먹으러가야함<br>
+                                  </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/E6vA7pHc9ibDrjD78" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20210132.png">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">18:00 ~ 19:30 PM</span>
+                    <div class="place-name"> 스시도코로 니시노 카쿠레</div>
+                    <div class="place-desc">
+                        타베로그 3.61 VAT포함 16.5 오마카세<br>
+                           https://tabelog.com/kr/fukuoka/A4001/A400103/40056954/       </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/1m2w2RDA6P9G3kbV7" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20210826.png">
+<img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202026-02-24%20210732.png">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">18:00 ~ 19:30 PM</span>
+                    <div class="place-name"> 로바타 신카와바시/노미도코로 준</div>
+                    <div class="place-desc">
+                        로바타 신카와바시 : 선술집느낌 구워먹는해산물 등<br>
+                         노미도코로준 : 노포느낌이지만 깔끔한 수준급이자카야      </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/zjrsxqwqyXiHvhwB8" target="_blank" class="action-btn map">📍 로바타</a>
+<a href="https://maps.app.goo.gl/5L4b2amje3ZvmFwZ6" target="_blank" class="action-btn map">📍 준</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://gi.esmplus.com/anapal23/00/%EC%83%88%ED%8F%B4%EB%8D%94/23.png">
+<img src="https://lh3.googleusercontent.com/p/AF1QipMPUwplFkiJ1IgKVHTc1jDzMfOQIJdX3PvGJTcl=w426-h240-k-no">
+
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">20:00 ~ 21:00 PM</span>
+                    <div class="place-name"> 코리안바/GENTLE</div>
+                    <div class="place-desc">
+                        코리안바 : 1시간 2.6만엔 주류무제한/ 노래하는 BAR 체험용<br>
+                         GENTEL : 걍 로컬BAR , 단 사장이 영어 할 줄 앎 </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/cWjAkTWK1MDC2akL8" target="_blank" class="action-btn map">📍코리안바</a>
+<a href="https://maps.app.goo.gl/vyV1d22NRLQXvLSSA" target="_blank" class="action-btn map">📍 젠틀</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div class="timeline-item">
+            <div class="card">
+                <div class="img-container">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweo-zNUJdmTNCrN0jQvXRSYnP5ZlZ5nik_9trqBm_ElKAg-4CdAuyg0mC-4Qxn3YOkuUE16yM8aJQn8gCglWZ3O5eDa7PGAYQiQi6gDKQckxrUbhJmXxXS6w4qzosyTkn6E3gfdq=w408-h544-k-no">
+                </div>
+                <div class="card-body">
+                    <span class="time-badge">21:00 ~</span>
+                    <div class="place-name"> 텐진 포장마차 거리 출격</div>
+                    <div class="place-desc">
+                        라멘, 꼬치 등등 의외로 개맛있음<br>
+                         야타이 키타로로 일단 정했으나 가서 자리있는 곳 앉을수도  </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/PwVcnWRjKqKYEmDC7" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="timeline-item">
+            <div class="card">
+              
+                
+                <div class="card-body">
+                    <span class="time-badge"> ???</span>
+                    <div class="place-name">[자유시간]</div>
+                    <div class="place-desc">
+                        그때 가서 정하기. <br>
+                            </div>
+                                    </div>
+            </div>
+        </div>
+
+</div>
+
 
     <div id="day3" class="content-area">
-        <div class="timeline-item">
+<div class="timeline-item">
             <div class="card">
+                <div class="img-container">
+                    <img src="https://media.triple.guide/triple-cms/c_limit,f_auto,h_2048,w_2048/2e2acea7-5183-4f90-8d6a-2d32fd668f17.jpeg">
+                </div>
                 <div class="card-body">
-                    <span class="time-badge">14:00 PM</span>
-                    <div class="place-name">✈️ 공항 이동</div>
-                    <div class="place-desc">남은 엔화 털기 (로이스, 도쿄바나나)</div>
+                    <span class="time-badge">07:00 ~ 09:00 AM</span>
+                    <div class="place-name"> 이토오카시</div>
+                    <div class="place-desc">
+                        개유명한 카이센동집인데 7시에 오픈<br>
+                         월요일이라 비벼볼수 있을 것 같아 일찍 도전       </div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/UmcVLHqPU6BtYjcFA" target="_blank" class="action-btn map">📍 구글맵</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+
+
+
+<div class="timeline-item">
+            <div class="card">
+                             <div class="card-body">
+                    <span class="time-badge">이담부턴 ㄹㅇ</span>
+                    <div class="place-name"> 못정하겠음</div>
+                    <div class="place-desc">
+                      의견내봐라...       </div>
+                   
+                                  
+                </div>
+            </div>
+        </div>
+  </div>
+
+
+
     
     <div id="info" class="content-area">
         <div class="timeline-item" style="border:none;">
@@ -314,10 +478,19 @@
                 <div class="card-body">
                     <div class="place-name">✅ 필수 체크리스트</div>
                     <div class="place-desc">
-                        - 여권 (유효기간 확인)<br>
-                        - 110v 돼지코<br>
-                        - 보조배터리 (기내 반입)<br>
-                        - 동전지갑 (일본은 현금!)
+                        - 여권,신분증 (유효기간 확인)<br>
+-비짓재팬 필수<br>
+                        - 110v 돼지코나 멀티어댑터<br>
+- 유심이심 꼭 알아서<br>
+- 환전은 공항내려서나 시내가서<br>
+- 트래블로그카드 있으면 매우 편함<br>
+
+                        - 보조배터리가져올거면 기내용으로<br>
+                        - 동전지갑 (현금 은근 마니쓸듯)<br>
+- 사람새끼라면 옷,속옷,세면도구 알아서<br>
+- 교통카드있으면 (이코카같은) 가져올 것<br>
+- 아무도 안가져오겠지만 셀카봉이나 삼각대<br>
+- 
                     </div>
                 </div>
             </div>
@@ -327,20 +500,24 @@
     <script>
         // 1. 탭 전환 기능
         function openTab(tabName, element) {
-            // 컨텐츠 숨기기/보이기
-            document.querySelectorAll('.content-area').forEach(div => div.classList.remove('active'));
+            var contents = document.getElementsByClassName('content-area');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
             document.getElementById(tabName).classList.add('active');
             
-            // 버튼 활성화 스타일
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            var buttons = document.getElementsByClassName('tab-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
             element.classList.add('active');
             
-            // 부드러운 스크롤 (선택사항)
+            // 상단으로 부드럽게 이동
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 2. D-Day 계산기 (여행 날짜를 아래에 입력하세요)
-        const tripDate = new Date("2026-03-14"); // 여행 날짜 수정! (YYYY-MM-DD)
+        // 2. D-Day 계산기 (날짜: 2026-03-14 설정 유지)
+        const tripDate = new Date("2026-03-14"); 
         const today = new Date();
         const diff = tripDate - today;
         const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
@@ -350,7 +527,7 @@
             dDayElement.innerText = "D-" + daysLeft;
         } else if (daysLeft === 0) {
             dDayElement.innerText = "D-Day!";
-            dDayElement.style.background = "#FF453A"; // 당일은 빨간색 강조
+            dDayElement.style.background = "#FF453A";
             dDayElement.style.color = "white";
         } else {
             dDayElement.innerText = "여행중";
